@@ -18,7 +18,13 @@ func GetBooks(c *fiber.Ctx) error {
 
 func CreateBook(c *fiber.Ctx) error {
 
-	var book string
+	var book models.Book
+
+	if err := c.BodyParser(&book); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
 
 	coba := c.BodyParser(&book)
 
