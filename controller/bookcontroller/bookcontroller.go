@@ -11,7 +11,7 @@ func GetBooks(c *fiber.Ctx) error {
 	models.DB.Find(&books)
 	return c.JSON(fiber.Map{
 		"status":  "success",
-		"message": "All books",
+		"message": "Show all books",
 		"data":    books,
 	})
 }
@@ -26,12 +26,15 @@ func CreateBook(c *fiber.Ctx) error {
 		})
 	}
 
-	coba := c.BodyParser(&book)
+	if err := models.DB.Create(&book).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
 
 	return c.JSON(fiber.Map{
 		"status":  "success",
-		"message": "Create book",
+		"message": "New book has created",
 		"data":    book,
-		"coba":    coba,
 	})
 }
