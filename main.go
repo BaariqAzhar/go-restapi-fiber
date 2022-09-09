@@ -18,10 +18,9 @@ func main() {
 	book := api.Group("/book")
 
 	book.Get("/", bookcontroller.GetBooks)
-
+	book.Get("/:id", bookcontroller.GetBook)
 	book.Post("/", bookcontroller.CreateBook)
-
-	// book.Get("/", m.)
+	book.Put("/:id", bookcontroller.UpdateBook)
 
 	app.Listen(":3001")
 }
